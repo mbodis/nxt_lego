@@ -20,8 +20,7 @@ public class GamePrinterTest extends GameTemplate {
 	
 	private static int CONSTANT_RESET_LINE = 20;
 	
-	private static char NEW_LINE = '#';
-	
+	private static char NEW_LINE = '#';	
 	
 	private boolean start = false;
 	private StringBuilder strBuilder;
@@ -32,8 +31,9 @@ public class GamePrinterTest extends GameTemplate {
 	@Override
 	public void setMain(CommandPerformer commandPerformer) {
 		this.mainGame = (MainGame) commandPerformer;
+		this.showText = false;
 		strBuilder = new StringBuilder();
-		initMotors();
+		initMotors();		
 	}
 	
 	private void initMotors(){
@@ -49,7 +49,7 @@ public class GamePrinterTest extends GameTemplate {
 	@Override
 	public void readInstructions(int command, byte[] parameter) {
 		switch (parameter[2]) {
-			case BTControls.FILE_START:			
+			case BTControls.FILE_START:
 				strBuilder = new StringBuilder();
 				break;
 			case BTControls.FILE_END:
@@ -57,7 +57,7 @@ public class GamePrinterTest extends GameTemplate {
 				break;
 			case BTControls.FILE_DATA:
 				int i = parameter[3];
-				strBuilder.append(Integer.toBinaryString(i));			
+				strBuilder.append( Integer.toBinaryString((i & 0xFF) + 0x100).substring(1) );
 				break;
 			case BTControls.FILE_NEW_LINE:
 				strBuilder.append(NEW_LINE);
@@ -67,31 +67,57 @@ public class GamePrinterTest extends GameTemplate {
 	}
 
 	@Override
-	public void performInstructions() {
+	public void performInstructions() {		
 		if (start){
-			String str = strBuilder.toString();
-//			LCD.drawString(str.substring(0, 8), 0, 0);
-			LCD.drawString("a" + str.length(), 0, 0);
-		}
+			drawLCD();
+			start = false;
+		}		
 		
-//		if (start){
-//			start = false;
-//			resetLines();
-//			drawLine(strBuilder.toString());
-			
-//			drawLine("1111111111111110");			
-//			drawLine("1100000000000110");
-//			drawLine("1100110001100110");
-//			drawLine("1100110001100110");
-//			drawLine("1100000000000110");
-//			drawLine("1100111111100110");
-//			drawLine("1100000000000110");
-//			drawLine("1111111111111110");			
-//		}
-		
+				
+//		drawPen();
 
 	}
+	
+	private void drawPen(){
+		if (start){
+			start = false;
+			resetLines();
+			drawLine(strBuilder.toString());
+			/*
+			drawLine("1111111111111110");			
+			drawLine("1100000000000110");
+			drawLine("1100110001100110");
+			drawLine("1100110001100110");
+			drawLine("1100000000000110");
+			drawLine("1100111111100110");
+			drawLine("1100000000000110");
+			drawLine("1111111111111110");
+			*/			
+		}
+	}
 		
+	private void drawLCD() {
+		LCD.clear();
+		
+		int column = 0;
+		int row = 0;
+		for(int k=0; k< strBuilder.length(); k++){
+			if (strBuilder.charAt(k) == NEW_LINE){
+				row++;
+				column = 0;
+				continue;
+			}
+			
+			if (strBuilder.charAt(k) == '1'){
+				LCD.setPixel(column, row, 1);
+			}
+			
+			column++;
+		}
+		
+		LCD.refresh();
+	}
+
 	private void drawLine(String str){
 		
 		boolean penUp = true;		

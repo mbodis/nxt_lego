@@ -1,11 +1,7 @@
 package svb.nxt.robot;
 
 import lejos.nxt.Button;
-import lejos.nxt.ColorSensor;
 import lejos.nxt.LCD;
-import lejos.nxt.LightSensor;
-import lejos.nxt.Motor;
-import lejos.nxt.SensorPort;
 import svb.nxt.robot.bt.BTConnector;
 import svb.nxt.robot.bt.BTControls;
 import svb.nxt.robot.game.GameMoveAccelerometer;
@@ -15,6 +11,7 @@ import svb.nxt.robot.game.GamePrinterTest;
 import svb.nxt.robot.game.GameReadLine;
 import svb.nxt.robot.game.GameSegway;
 import svb.nxt.robot.game.GameTemplate;
+import svb.nxt.robot.game.GameTesting;
 import svb.nxt.robot.logic.CommandPerformer;
 import svb.nxt.robot.logic.LMDutils;
 
@@ -102,7 +99,8 @@ public class MainGame implements CommandPerformer {
 					createGame();
 					break;
 				case GAME_EMPTY:					
-					
+					gameType = BTControls.PROGRAM_TESTING;
+					createGame();
 					break;
 
 				default:
@@ -262,6 +260,9 @@ public class MainGame implements CommandPerformer {
 //				game = new GamePrinterFoto();
 //				break;
 				
+			case BTControls.PROGRAM_TESTING:
+				game = new GameTesting();
+				break;
 			case BTControls.PROGRAM_SEGWAY:
 				game = new GameSegway();
 				break;

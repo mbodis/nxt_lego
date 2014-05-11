@@ -15,6 +15,8 @@ public class BTControls {
 	public static final int PROGRAM_PRINTER_FOTO = 6;	
 	public static final int PROGRAM_SEGWAY = 7;
 	
+	public static final int PROGRAM_TESTING = 20;
+	
 	/**
 	 * PROGRAM NAME
 	 */

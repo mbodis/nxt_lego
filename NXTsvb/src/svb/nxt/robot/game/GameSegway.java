@@ -50,7 +50,8 @@ public class GameSegway extends GameTemplate{
 		initMotors();	
 		this.setShowText(false);
 		
-		LCD.drawString("START ", 0, 0);
+		LCD.clear();
+		LCD.drawString("STARTING SEGWAY BALANCING ", 0, 0);
 		LCD.refresh();
 	}
 
