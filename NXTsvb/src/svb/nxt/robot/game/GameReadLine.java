@@ -133,5 +133,11 @@ public class GameReadLine extends GameTemplate {
 		light.setFloodlight(false);
 		light = null;
 	}
+
+	@Override
+	public void buttonPressed(int btnID) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

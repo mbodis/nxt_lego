@@ -297,6 +297,12 @@ public class GameSegway extends GameTemplate{
 //		  	  wait1Msec(1);}
 //		  	ClearTimer(T4);
 		    return motorpower;
+	}
+
+	@Override
+	public void buttonPressed(int btnID) {
+		// TODO Auto-generated method stub
+		
 	} 
 	
 }

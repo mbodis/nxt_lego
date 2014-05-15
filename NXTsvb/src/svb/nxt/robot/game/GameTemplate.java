@@ -33,7 +33,12 @@ public abstract class GameTemplate {
 	/**
 	 * what to do after reading instruction
 	 */
-	public abstract void performInstructions();	
+	public abstract void performInstructions();
+	
+	/**
+	 * when button pressed
+	 */
+	public abstract void buttonPressed(int btnID);	
 	
 	/**
 	 * show moving text in mainGame or hide when showing own info

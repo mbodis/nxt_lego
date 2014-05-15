@@ -178,4 +178,10 @@ public class GameMoveMotor extends GameTemplate{
 	public void onDestroy() {		
 	}
 
+	@Override
+	public void buttonPressed(int btnID) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

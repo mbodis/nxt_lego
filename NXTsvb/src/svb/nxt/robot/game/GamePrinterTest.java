@@ -1,5 +1,6 @@
 package svb.nxt.robot.game;
 
+import lejos.nxt.Button;
 import lejos.nxt.LCD;
 import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;
@@ -14,6 +15,9 @@ import svb.nxt.robot.logic.CommandPerformer;
  */
 public class GamePrinterTest extends GameTemplate {
 
+	private static int DISPL_MAX_W = 100;
+	private static int DISPL_MAX_H = 60;
+	
 	private static int CONSTANT_PEN_DISTANCE = 30;
 	private static int CONSTANT_NEXT_LINE = 2;
 	private static int CONSTANT_NEXT_CHAR = -2;
@@ -23,10 +27,15 @@ public class GamePrinterTest extends GameTemplate {
 	private static char NEW_LINE = '#';	
 	
 	private boolean start = false;
+	private boolean doPrintByPen = false;
 	private StringBuilder strBuilder;
 	
 	NXTRegulatedMotor motorPen, motorRow, motorLine;
-	
+
+	// show preview on LCD 
+	private boolean moveHorizontally = true;
+	private int scrMoveX = 0;
+	private int scrMoveY = 0;
 
 	@Override
 	public void setMain(CommandPerformer commandPerformer) {
@@ -54,6 +63,7 @@ public class GamePrinterTest extends GameTemplate {
 				break;
 			case BTControls.FILE_END:
 				start = true;
+				doPrintByPen = (parameter[3] == 1);
 				break;
 			case BTControls.FILE_DATA:
 				int i = parameter[3];
@@ -67,18 +77,22 @@ public class GamePrinterTest extends GameTemplate {
 	}
 
 	@Override
-	public void performInstructions() {		
+	public void performInstructions() {
+		
 		if (start){
-			drawLCD();
-			start = false;
+			drawLCD(scrMoveX, scrMoveY);
+			
+			if(doPrintByPen){
+				drawPen();				
+			}
+			
+			//start = false;
 		}		
 		
-				
-//		drawPen();
-
 	}
 	
 	private void drawPen(){
+		
 		if (start){
 			start = false;
 			resetLines();
@@ -96,20 +110,33 @@ public class GamePrinterTest extends GameTemplate {
 		}
 	}
 		
-	private void drawLCD() {
+	private void drawLCD(int moveColumn, int moveRow) {
 		LCD.clear();
 		
-		int column = 0;
+		int limitColumn = DISPL_MAX_W + moveColumn;
+		int limitRow = DISPL_MAX_H + moveRow;
+		
+		int column = 0-moveColumn;
 		int row = 0;
+		
 		for(int k=0; k< strBuilder.length(); k++){
+			if (moveRow>0){
+				if (strBuilder.charAt(k) == NEW_LINE){
+					moveRow --;
+				}
+				continue;
+			}
+				
 			if (strBuilder.charAt(k) == NEW_LINE){
 				row++;
-				column = 0;
+				column = 0-moveColumn;
 				continue;
 			}
 			
 			if (strBuilder.charAt(k) == '1'){
-				LCD.setPixel(column, row, 1);
+				if (column >0 && row < limitRow){ 
+					LCD.setPixel(column, row, 1);
+				}
 			}
 			
 			column++;
@@ -152,8 +179,7 @@ public class GamePrinterTest extends GameTemplate {
 			penUp();
 		motorLine.rotate(CONSTANT_NEXT_LINE);
 		moveLetter(-back);
-	}
-	
+	}	
 	
 	private void moveLetter(int numberLetters){
 		motorRow.rotate(CONSTANT_NEXT_CHAR * numberLetters);
@@ -167,9 +193,39 @@ public class GamePrinterTest extends GameTemplate {
 		motorPen.rotate(-CONSTANT_PEN_DISTANCE);
 	}
 
-
 	@Override
 	public void onDestroy() {		
+	}
+
+	@Override
+	public void buttonPressed(int btnID) {
+		
+		switch (btnID){
+			case Button.ID_RIGHT:
+				if(moveHorizontally){
+					scrMoveX ++;
+				}else{
+					scrMoveY ++;
+				}
+				break;
+				
+			case Button.ID_LEFT:
+				if(moveHorizontally){				
+					
+					
+					if (scrMoveX > 0)
+						scrMoveX --;
+				}else{
+					if (scrMoveY > 0)
+						scrMoveY --;
+				}
+				
+				break;
+			case Button.ID_ENTER:
+				moveHorizontally = !moveHorizontally;
+				break;
+		}
+		//LCD.drawString("X:" + scrMoveX + " Y:" + scrMoveY , 1, 1);
 	}
 
 }

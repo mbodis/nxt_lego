@@ -85,26 +85,34 @@ public class MainGame implements CommandPerformer {
 				lcpThread.terminate();
 			}
 			if (Button.RIGHT.isDown()) {
+				if (game != null)
+					game.buttonPressed(Button.ID_RIGHT);
 				if(selectManualLevel < NUMBER_LEVELS )
 				selectManualLevel += 1;
 			}
 			if (Button.LEFT.isDown()) {
+				if (game != null)
+					game.buttonPressed(Button.ID_LEFT);
 				if(selectManualLevel > 1)
 					selectManualLevel -= 1;
 			}
 			if (Button.ENTER.isDown()) {
-				switch (selectManualLevel) {				
-				case GAME_SEGWAY:
-					gameType = BTControls.PROGRAM_SEGWAY;
-					createGame();
-					break;
-				case GAME_EMPTY:					
-					gameType = BTControls.PROGRAM_TESTING;
-					createGame();
-					break;
-
-				default:
-					break;
+				if (game == null){
+					switch (selectManualLevel) {				
+					case GAME_SEGWAY:
+						gameType = BTControls.PROGRAM_SEGWAY;
+						createGame();
+						break;
+					case GAME_EMPTY:					
+						gameType = BTControls.PROGRAM_TESTING;
+						createGame();
+						break;
+	
+					default:
+						break;
+					}
+				}else{
+					game.buttonPressed(Button.ID_ENTER);
 				}
 			}
 			if (LMDutils.interruptedSleep(100))
