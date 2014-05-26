@@ -7,6 +7,7 @@ import lejos.nxt.NXTRegulatedMotor;
 import svb.nxt.robot.MainGame;
 import svb.nxt.robot.bt.BTControls;
 import svb.nxt.robot.logic.CommandPerformer;
+import svb.nxt.robot.logic.constants.PenPrinterConst;
 
 /** 
  * class for robot type: printer
@@ -18,9 +19,9 @@ public class GamePrinterTest extends GameTemplate {
 	private static int DISPL_MAX_W = 100;
 	private static int DISPL_MAX_H = 60;
 	
-	private static int CONSTANT_PEN_DISTANCE = 30;
-	private static int CONSTANT_NEXT_LINE = 2;
-	private static int CONSTANT_NEXT_CHAR = -2;
+	private static int PEN_DIST = PenPrinterConst.CONSTANT_PEN_HEAD_DISTANCE;
+	private static int COL = PenPrinterConst.CONSTANT_NEXT_ROW;
+	private static int ROW = PenPrinterConst.CONSTANT_NEXT_COLUMN;
 	
 	private static int CONSTANT_RESET_LINE = 20;
 	
@@ -50,9 +51,14 @@ public class GamePrinterTest extends GameTemplate {
 		motorRow = Motor.B;
 		motorLine = Motor.C;
 		
-		Motor.A.setSpeed(20);
-		Motor.B.setSpeed(20);
-		Motor.C.setSpeed(20);
+		Motor.A.setSpeed(50);
+		Motor.B.setSpeed(50);
+		Motor.C.setSpeed(50);
+		
+//		Motor.A.setAcceleration(4000);
+//		Motor.B.setAcceleration(4000);
+//		Motor.C.setAcceleration(4000);
+		
 	}
 
 	@Override
@@ -67,10 +73,10 @@ public class GamePrinterTest extends GameTemplate {
 				break;
 			case BTControls.FILE_DATA:
 				int i = parameter[3];
-				strBuilder.append( Integer.toBinaryString((i & 0xFF) + 0x100).substring(1) );
+//				strBuilder.append( Integer.toBinaryString((i & 0xFF) + 0x100).substring(1) );
 				break;
 			case BTControls.FILE_NEW_LINE:
-				strBuilder.append(NEW_LINE);
+//				strBuilder.append(NEW_LINE);
 				break;
 			}
 
@@ -80,24 +86,19 @@ public class GamePrinterTest extends GameTemplate {
 	public void performInstructions() {
 		
 		if (start){
-			drawLCD(scrMoveX, scrMoveY);
-			
-			if(doPrintByPen){
-				drawPen();				
-			}
-			
-			//start = false;
+			//drawLCD(scrMoveX, scrMoveY);
+			drawPen();						
 		}		
 		
 	}
 	
 	private void drawPen(){
 		
-		if (start){
-			start = false;
-			resetLines();
-			drawLine(strBuilder.toString());
-			/*
+		if (doPrintByPen){
+			doPrintByPen = false;
+//			resetLines();
+//			drawLine(strBuilder.toString());
+//			/*
 			drawLine("1111111111111110");			
 			drawLine("1100000000000110");
 			drawLine("1100110001100110");
@@ -106,7 +107,7 @@ public class GamePrinterTest extends GameTemplate {
 			drawLine("1100111111100110");
 			drawLine("1100000000000110");
 			drawLine("1111111111111110");
-			*/			
+//			*/			
 		}
 	}
 		
@@ -177,20 +178,20 @@ public class GamePrinterTest extends GameTemplate {
 	private void nextLine(int back, boolean penUp){
 		if (!penUp)
 			penUp();
-		motorLine.rotate(CONSTANT_NEXT_LINE);
+		motorLine.rotate(ROW);
 		moveLetter(-back);
 	}	
 	
 	private void moveLetter(int numberLetters){
-		motorRow.rotate(CONSTANT_NEXT_CHAR * numberLetters);
+		motorRow.rotate(COL * numberLetters);
 	}
 	
 	private void penUp(){		
-		motorPen.rotate(CONSTANT_PEN_DISTANCE);
+		motorPen.rotate(PEN_DIST);
 	}
 	
 	private void penDown(){		
-		motorPen.rotate(-CONSTANT_PEN_DISTANCE);
+		motorPen.rotate(-PEN_DIST);
 	}
 
 	@Override

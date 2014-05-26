@@ -263,10 +263,15 @@ public class MainGame implements CommandPerformer {
 			case BTControls.PROGRAM_PRINTER_TEST:
 				game = new GamePrinterTest();
 				break;
-			//TODO	
-//			case BTControls.PROGRAM_PRINTER_FOTO:
-//				game = new GamePrinterFoto();
+			case BTControls.PROGRAM_PRINTER_TEST_2:
+				game = new GamePrinterTest();
+				break;
+//			case BTControls.PROGRAM_PEN_PRINTER:
+//				game = new GamePenPrinter();
 //				break;
+//			case BTControls.PROGRAM_DRILL_PRINTER:
+//				game = new GameDrillPrinter();
+//				break;				
 				
 			case BTControls.PROGRAM_TESTING:
 				game = new GameTesting();

@@ -12,8 +12,10 @@ public class BTControls {
 	public static final int PROGRAM_MOVE_ACCELEROMETER = 3;
 	public static final int PROGRAM_READ_LINE = 4;
 	public static final int PROGRAM_PRINTER_TEST = 5;
-	public static final int PROGRAM_PRINTER_FOTO = 6;	
-	public static final int PROGRAM_SEGWAY = 7;
+	public static final int PROGRAM_PRINTER_TEST_2 = 6;
+	public static final int PROGRAM_PEN_PRINTER= 7;
+	public static final int PROGRAM_DRILL_PRINTER= 8;
+	public static final int PROGRAM_SEGWAY = 9;
 	
 	public static final int PROGRAM_TESTING = 20;
 	
@@ -27,7 +29,9 @@ public class BTControls {
 	public static final String PROGRAM_MOVE_ACCELEROMETER_NAME = "accelerome";	
 	public static final String PROGRAM_READ_LINE_NAME = "readLine";
 	public static final String PROGRAM_PRINTER_TEST_NAME = "printerTest";
-	public static final String PROGRAM_PRINTER_FOTO_NAME= "printFoto";
+	public static final String PROGRAM_PRINTER_TEST_NAME_2 = "printerTest2";
+	public static final String PROGRAM_PEN_PRINTER_NAME = "penPrinter";
+	public static final String PROGRAM_DRILL_PRINTER_NAME= "drillPrinter";
 	public static final String PROGRAM_SEGWAY_NAME = "Segway";
 
 	public static String getProgramNameByType(int program) {
@@ -44,8 +48,12 @@ public class BTControls {
 			return PROGRAM_READ_LINE_NAME;
 		case PROGRAM_PRINTER_TEST:
 			return PROGRAM_PRINTER_TEST_NAME;
-		case PROGRAM_PRINTER_FOTO:
-			return PROGRAM_PRINTER_FOTO_NAME;
+		case PROGRAM_PRINTER_TEST_2:
+			return PROGRAM_PRINTER_TEST_NAME_2;
+		case PROGRAM_PEN_PRINTER:
+			return PROGRAM_PEN_PRINTER_NAME;
+		case PROGRAM_DRILL_PRINTER:
+			return PROGRAM_DRILL_PRINTER_NAME;
 		case PROGRAM_SEGWAY:
 			return PROGRAM_SEGWAY_NAME;
 		default:
