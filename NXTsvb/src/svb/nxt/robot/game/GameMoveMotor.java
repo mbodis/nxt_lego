@@ -8,6 +8,10 @@ import svb.nxt.robot.bt.BTControls;
 import svb.nxt.robot.logic.CommandPerformer;
 
 /** 
+ * SMER:
+ * motor so zapojenim pri tele kablovy cudlik hore - forward -> 
+ * keby bolo koleso ide vpred
+ * 
  * class for robot type: leJOS, Tribot
  * @author svab
  *
