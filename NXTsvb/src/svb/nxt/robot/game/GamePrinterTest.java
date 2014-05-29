@@ -30,6 +30,7 @@ public class GamePrinterTest extends GameTemplate {
 	private boolean start = false;
 	private boolean doPrintByPen = false;
 	private StringBuilder strBuilder;
+	private boolean pen_distance_check = false;
 	
 	NXTRegulatedMotor motorPen, motor_X, motor_Y;
 
@@ -77,6 +78,9 @@ public class GamePrinterTest extends GameTemplate {
 				break;
 			case BTControls.FILE_NEW_LINE:
 				strBuilder.append(NEW_LINE);
+				break;					
+			case BTControls.PEN_DISTANCE_CHECK:
+				pen_distance_check = true;
 				break;
 			}
 
@@ -90,6 +94,11 @@ public class GamePrinterTest extends GameTemplate {
 			drawPen();						
 		}		
 		
+		if (pen_distance_check){
+			pen_distance_check = false;
+			penDown();
+			penUp();
+		}
 	}
 	
 	private void drawPen(){
