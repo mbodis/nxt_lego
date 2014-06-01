@@ -27,7 +27,7 @@ public class MainGame implements CommandPerformer {
 	public static final int NUMBER_LEVELS = 2;
 	
 	
-	private static BTConnector lcpThread;	
+	public static BTConnector lcpThread;	
 
 	public static GameTemplate game;
 	private static int gameType = BTControls.NO_PROGRAM;

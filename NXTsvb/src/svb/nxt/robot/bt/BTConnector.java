@@ -28,6 +28,7 @@ public class BTConnector extends LCPBTResponder {
     // SVB
     public static final byte GAME_TYPE = 0x33;
     public static final byte ROBOT_TYPE = 0x34;
+    public static final byte FILE_NEXT_PART = 0x35;
 
     // number of self defined commands
     public final static int MAX_ADDITIONAL_COMMANDS = 10;
@@ -290,6 +291,21 @@ public class BTConnector extends LCPBTResponder {
             conn.write(message, message.length);
         }
     }
+    
+   /**
+    * SVB 
+    * @param msgType range 0-255
+    * @param msgValue range 0-255
+    */
+   public void sendMsgToPhone(byte msgType, byte msgValue){
+	   if (conn != null) {
+           byte[] message = new byte[3];
+           message[0] = LCP.DIRECT_COMMAND_NOREPLY;
+           message[1] = msgType;//FILE_NEXT_PART           
+           message[2] = (byte) (msgValue);
+           conn.write(message, message.length);
+       }
+   }
 
     /**
      * Terminates the daemon and all of its threads by calling
