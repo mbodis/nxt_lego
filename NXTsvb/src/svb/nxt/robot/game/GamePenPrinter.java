@@ -19,7 +19,7 @@ import svb.nxt.robot.logic.constants.PenPrinterConst;
  * @author svab
  *
  */
-public class GamePrinterTest extends GameTemplate {
+public class GamePenPrinter extends GameTemplate {
 
 	private static int DISPL_MAX_W = 100;
 	private static int DISPL_MAX_H = 60;

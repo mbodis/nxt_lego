@@ -29,7 +29,7 @@ public class PenPrinterConst {
 	 * default: 6000
 	 * deg /sec / sec
 	 */
-	public static int CONSTANT_MOVE_ACCELERATION = 800;//1000
+	public static int CONSTANT_MOVE_ACCELERATION = 800;
 	
 	public static int CONS_MOTOR_A_FORWARD = 1;
 	public static int CONS_MOTOR_B_FORWARD = -1;

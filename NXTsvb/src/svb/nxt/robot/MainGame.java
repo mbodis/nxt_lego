@@ -7,7 +7,7 @@ import svb.nxt.robot.bt.BTControls;
 import svb.nxt.robot.game.GameMoveAccelerometer;
 import svb.nxt.robot.game.GameMoveDirection;
 import svb.nxt.robot.game.GameMoveMotor;
-import svb.nxt.robot.game.GamePrinterTest;
+import svb.nxt.robot.game.GamePenPrinter;
 import svb.nxt.robot.game.GameReadLine;
 import svb.nxt.robot.game.GameSegway;
 import svb.nxt.robot.game.GameTemplate;
@@ -261,17 +261,13 @@ public class MainGame implements CommandPerformer {
 				game = new GameReadLine();
 				break;
 			case BTControls.PROGRAM_PRINTER_TEST:
-				game = new GamePrinterTest();
-				break;
 			case BTControls.PROGRAM_PRINTER_TEST_2:
-				game = new GamePrinterTest();
-				break;
-//			case BTControls.PROGRAM_PEN_PRINTER:
-//				game = new GamePenPrinter();
-//				break;
-//			case BTControls.PROGRAM_DRILL_PRINTER:
-//				game = new GameDrillPrinter();
-//				break;				
+			case BTControls.PROGRAM_PEN_PRINTER:
+				game = new GamePenPrinter();
+				break;			
+			case BTControls.PROGRAM_DRILL_PRINTER:
+//				game = new GameDrillPrinter();//TODO
+				break;				
 				
 			case BTControls.PROGRAM_TESTING:
 				game = new GameTesting();

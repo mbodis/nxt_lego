@@ -1,6 +1,6 @@
 package svb.nxt.robot.logic;
 
-import svb.nxt.robot.game.GamePrinterTest;
+import svb.nxt.robot.game.GamePenPrinter;
 
 public class PrinterHeler {
 	
@@ -23,7 +23,7 @@ public class PrinterHeler {
 			if (input.charAt(i) == '1'){
 				found = true;
 			}
-			if (input.charAt(i) == GamePrinterTest.NEW_LINE){
+			if (input.charAt(i) == GamePenPrinter.NEW_LINE){
 				write = true;
 			}
 			
@@ -34,7 +34,7 @@ public class PrinterHeler {
 			}
 			
 			if (write){
-				resBuff.append(GamePrinterTest.NEW_LINE);
+				resBuff.append(GamePenPrinter.NEW_LINE);
 				temp = new StringBuilder();
 				write = false;
 			}
