@@ -11,6 +11,7 @@ import svb.nxt.robot.MainGame;
 import svb.nxt.robot.bt.BTConnector;
 import svb.nxt.robot.bt.BTControls;
 import svb.nxt.robot.logic.CommandPerformer;
+import svb.nxt.robot.logic.PrinterHeler;
 import svb.nxt.robot.logic.constants.PenPrinterConst;
 
 /** 
@@ -23,7 +24,7 @@ public class GamePrinterTest extends GameTemplate {
 	private static int DISPL_MAX_W = 100;
 	private static int DISPL_MAX_H = 60;
 	
-	private static char NEW_LINE = '#';	
+	public static char NEW_LINE = '#';	
 	
 	private boolean start = false;
 	private boolean end = false;
@@ -88,9 +89,7 @@ public class GamePrinterTest extends GameTemplate {
 		
 			case BTControls.FILE_START_PACKAGE:
 			case BTControls.FILE_START:			
-				if (parameter[3] == BTControls.ACTION_PACKAGE_NEW_CONTENT){
-					strBuilder = new StringBuilder();
-				}				
+				strBuilder = new StringBuilder();				
 				break;
 				
 			case BTControls.FILE_END_PACKAGE:
@@ -165,13 +164,14 @@ public class GamePrinterTest extends GameTemplate {
 	 */
 	private void showLiveOPerformingInstruction(){
 		LCD.clear();
-		LCD.drawString("X"+X, 3, 3);				
+		LCD.drawString("X"+X, 3, 3);
 		LCD.refresh();
 		X=(X+1)%10;
 	}
 	
 	private void drawPen(){
 				
+		strBuilder = PrinterHeler.removeEmptySlots(strBuilder);
 		drawString(strBuilder.toString(), part);//TODO UNCOMMENT
 		part ++;
 		
@@ -298,8 +298,8 @@ public class GamePrinterTest extends GameTemplate {
 	private void goToBeginningOfRow2(){
 		motor_X.stop();
 		motor_X.flt();
-		motor_X.setSpeed(20 * PenPrinterConst.CONS_MOTOR_B_FORWARD); // go faster
-		motor_X.rotate(50 * PenPrinterConst.CONS_MOTOR_B_FORWARD);
+		motor_X.setSpeed(10 * PenPrinterConst.CONS_MOTOR_B_FORWARD); // go faster
+		motor_X.rotate(10 * PenPrinterConst.CONS_MOTOR_B_FORWARD);
 		initMotors(false);
 	}
 	
