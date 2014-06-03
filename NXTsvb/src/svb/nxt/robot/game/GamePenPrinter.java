@@ -15,7 +15,13 @@ import svb.nxt.robot.logic.PrinterHeler;
 import svb.nxt.robot.logic.constants.PenPrinterConst;
 
 /** 
- * class for robot type: printer
+ * class for robot type: printer<br>
+ * 
+ * <b>setup:</b><br>
+ * Motor A - pen head (up down)<br>
+ * Motor B - X-axis<br>
+ * Motor C - Y-axis<br>
+ * Sensor 1: - Touch sensor<br>
  * @author svab
  *
  */
