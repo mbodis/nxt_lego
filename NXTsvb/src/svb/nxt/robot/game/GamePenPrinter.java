@@ -202,7 +202,7 @@ public class GamePenPrinter extends GameTemplate {
 	private void drawLCD(int moveColumn, int moveRow) {
 		LCD.clear();
 		
-		int limitColumn = DISPL_MAX_W + moveColumn;
+		//int limitColumn = DISPL_MAX_W + moveColumn;
 		int limitRow = DISPL_MAX_H + moveRow;
 		
 		int column = 0-moveColumn;
@@ -305,7 +305,7 @@ public class GamePenPrinter extends GameTemplate {
 		motor_X.stop();
 		motor_X.flt();
 		motor_X.setSpeed(10 * PenPrinterConst.CONS_MOTOR_B_FORWARD); // go faster
-		motor_X.rotate(10 * PenPrinterConst.CONS_MOTOR_B_FORWARD);
+		motor_X.rotate(30 * PenPrinterConst.CONS_MOTOR_B_FORWARD);
 		initMotors(false);
 	}
 	
