@@ -168,6 +168,7 @@ public class GamePenPrinter extends GameTemplate {
 	 * vidime ci je hlavny thread volny alebo nieco vykonava
 	 * zobrazovanie cisel 0-9 dokola
 	 */
+	@SuppressWarnings("unused")
 	private void showLiveOPerformingInstruction(){
 		LCD.clear();
 		LCD.drawString("X"+X, 3, 3);
@@ -183,7 +184,7 @@ public class GamePenPrinter extends GameTemplate {
 		
 		// ak nie je koniec pytaj si dalsiu cast
 		if (!end){				
-			this.mainGame.lcpThread.sendMsgToPhone(BTConnector.FILE_NEXT_PART, (byte)0x0);
+			MainGame.lcpThread.sendMsgToPhone(BTConnector.FILE_NEXT_PART, (byte)0x0);
 		}
 		
 		/*
@@ -240,26 +241,25 @@ public class GamePenPrinter extends GameTemplate {
 			goToBeginningOfRow1();		
 			doBeep();
 		}
-		
-		// rata dlzku riadku
-		int rowLength = 0; 
+				
+		// int rowLength = 0; 
 		
 		for(int i = 0; i < str.length(); i++){
-			
-			if ((str.charAt(i) == NEW_LINE)){
-				move_next_line();
-				rowLength = 0;
-				continue;
-			}
+						
 			if ((str.charAt(i) == '1')){
 				penDown();
 				penUp();			
-			}else if (str.charAt(i) == '0'){
+				move_next_column();
 				
-			}
-						
-			move_next_column();			
-			rowLength++;
+			}else if (str.charAt(i) == '0'){				
+				move_next_column();
+				
+			}else if ((str.charAt(i) == NEW_LINE)){				
+				move_next_line();
+				// rowLength = 0;				
+			} 
+											
+			// rowLength++;
 		}
 		
 		doBeep();

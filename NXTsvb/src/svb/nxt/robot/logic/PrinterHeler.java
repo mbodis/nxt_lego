@@ -8,6 +8,7 @@ public class PrinterHeler {
 	 * odstranuje prazdne mista ku koncu riadku (nuly)
 	 * 1100110001100110# -> 110011000110011#
 	 * 1100000000000000# -> 11#
+	 * 1100000010000	 -> 1100000010000
 	 */	
 	public static StringBuilder removeEmptySlots(StringBuilder input){
 		
@@ -16,7 +17,7 @@ public class PrinterHeler {
 		boolean found = false;
 		boolean write = false;
 		
-		for(int i=0;i<input.toString().length();i++){
+		for(int i=0; i < input.toString().length(); i++){
 			
 			temp.append(input.charAt(i));
 			
@@ -39,6 +40,11 @@ public class PrinterHeler {
 				write = false;
 			}
 					
+		}
+		
+		// save uncomplete row
+		if (temp.toString().length() > 0){
+			resBuff.append(temp.toString());
 		}
 			
 		return resBuff;
