@@ -94,6 +94,7 @@ public class GamePenPrinter extends GameTemplate {
 		switch (parameter[2]) {
 		
 			case BTControls.FILE_START_PACKAGE:
+				//break; //XXX comment
 			case BTControls.FILE_START:			
 				strBuilder = new StringBuilder();				
 				break;
@@ -179,7 +180,7 @@ public class GamePenPrinter extends GameTemplate {
 	private void drawPen(){
 				
 		strBuilder = PrinterHeler.removeEmptySlots(strBuilder);
-		drawString(strBuilder.toString(), part);//TODO UNCOMMENT
+		drawString(strBuilder.toString(), part);//XXX uncomment
 		part ++;
 		
 		// ak nie je koniec pytaj si dalsiu cast
