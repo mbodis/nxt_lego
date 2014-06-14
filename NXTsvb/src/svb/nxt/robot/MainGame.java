@@ -4,6 +4,7 @@ import lejos.nxt.Button;
 import lejos.nxt.LCD;
 import svb.nxt.robot.bt.BTConnector;
 import svb.nxt.robot.bt.BTControls;
+import svb.nxt.robot.game.GameDrillPrinter;
 import svb.nxt.robot.game.GameMoveAccelerometer;
 import svb.nxt.robot.game.GameMoveDirection;
 import svb.nxt.robot.game.GameMoveMotor;
@@ -266,7 +267,7 @@ public class MainGame implements CommandPerformer {
 				game = new GamePenPrinter();
 				break;			
 			case BTControls.PROGRAM_DRILL_PRINTER:
-//				game = new GameDrillPrinter();//TODO
+				game = new GameDrillPrinter();
 				break;				
 				
 			case BTControls.PROGRAM_TESTING:

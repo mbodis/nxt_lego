@@ -137,7 +137,7 @@ public class BTControls {
 	/**
 	 * PRINTER
 	 */
-public static final int FILE_NEW_PACKAGE_REQUEST = 50;
+	public static final int FILE_NEW_PACKAGE_REQUEST = 50;
 	
 	public static final int FILE_START = 55; 	
 	public static final int FILE_START_PACKAGE = 53;
@@ -156,5 +156,15 @@ public static final int FILE_NEW_PACKAGE_REQUEST = 50;
 	public static final int PEN_DISTANCE_CHECK = 60;
 	public static final int PEN_UP = 61;
 	public static final int PEN_DOWN = 62;
-	
+
+	/**
+	 * DRILL PRINTER
+	 */	
+	public static final int DRILL_DISTANCE_CHECK_LOW = 60;
+	public static final int DRILL_DISTANCE_CHECK_DEEP = 61;
+	public static final int DRILL_MIN_DOWN = 62;
+	public static final int DRILL_MIN_UP = 63;
+	public static final int DRILL_MAX_DOWN = 64;
+	public static final int DRILL_MAX_UP = 65;
 }
+
