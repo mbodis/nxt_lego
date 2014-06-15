@@ -20,7 +20,7 @@ import svb.nxt.robot.logic.constants.DrillPrinterConst;
  * class for robot type: printer<br>
  * 
  * <b>setup:</b><br>
- * Motor A - pen head (up down)<br>
+ * Motor A - drill head (up down)<br>
  * Motor B - X-axis<br>
  * Motor C - Y-axis<br>
  * Sensor 1: - Touch sensor<br>
@@ -278,16 +278,16 @@ public class GameDrillPrinter extends GameTemplate {
 		initMotors(false);
 	}	
 	
-	private void drillDown(int height){		
+	private void drillUp(int height){		
 		motorPen.rotate(height 
 				* DrillPrinterConst.CONS_MOTOR_A_FORWARD);
 	}
-	
-	private void drillUp(int height){		
+
+	private void drillDown(int height){		
 		motorPen.rotate(-1 * height 
 				* DrillPrinterConst.CONS_MOTOR_A_FORWARD);
 	}
-
+	
 	@Override
 	public void onDestroy() {
 		myThread.setIsAlive(false);
