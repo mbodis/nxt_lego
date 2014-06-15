@@ -46,7 +46,7 @@ public class GameDrillPrinter extends GameTemplate {
 	private int drill_distance_check = -1;	
 	private boolean goToTheBeginningOfRow = false;
 	
-	NXTRegulatedMotor motorPen, motor_X, motor_Y;
+	NXTRegulatedMotor motorDrill, motor_X, motor_Y;
 	TouchSensor touch;
 	int X = 0;
 
@@ -74,16 +74,16 @@ public class GameDrillPrinter extends GameTemplate {
 			
 			touch = new TouchSensor(SensorPort.S1);
 			
-			motorPen = Motor.A;
+			motorDrill = Motor.A;
 			motor_X = Motor.B;
 			motor_Y = Motor.C;
 		}
 		
-		motorPen.setSpeed(DrillPrinterConst.CONSTANT_MOVE_SPEED_PEN);
+		motorDrill.setSpeed(DrillPrinterConst.CONSTANT_MOVE_SPEED_PEN);
 		motor_X.setSpeed(DrillPrinterConst.CONSTANT_MOVE_SPEED);
 		motor_Y.setSpeed(DrillPrinterConst.CONSTANT_MOVE_SPEED);
 		
-		motorPen.setAcceleration(DrillPrinterConst.CONSTANT_MOVE_ACCELERATION);
+		motorDrill.setAcceleration(DrillPrinterConst.CONSTANT_MOVE_ACCELERATION);
 		motor_X.setAcceleration(DrillPrinterConst.CONSTANT_MOVE_ACCELERATION);
 		motor_Y.setAcceleration(DrillPrinterConst.CONSTANT_MOVE_ACCELERATION);
 
@@ -215,6 +215,13 @@ public class GameDrillPrinter extends GameTemplate {
 		
 		for(int i = 0; i < list.size(); i++){
 			
+			LCD.clear();
+			 
+			LCD.drawString("const:" + DrillPrinterConst.CONSTANT_DRILL, 1, 5);
+			LCD.drawString("print:" + list.get(i), 1, 6);
+			LCD.drawString("down:" + (int)(((double)DrillPrinterConst.CONSTANT_DRILL * list.get(i))), 1, 7);
+			LCD.refresh();
+			
 			if ((list.get(i) == NEW_LINE)){				
 				move_next_line();
 			}else{				
@@ -279,12 +286,12 @@ public class GameDrillPrinter extends GameTemplate {
 	}	
 	
 	private void drillUp(int height){		
-		motorPen.rotate(height 
+		motorDrill.rotate(height 
 				* DrillPrinterConst.CONS_MOTOR_A_FORWARD);
 	}
 
 	private void drillDown(int height){		
-		motorPen.rotate(-1 * height 
+		motorDrill.rotate(-1 * height 
 				* DrillPrinterConst.CONS_MOTOR_A_FORWARD);
 	}
 	

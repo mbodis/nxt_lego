@@ -9,7 +9,7 @@ public class DrillPrinterConst {
 	public static int CONSTANT_DRILL_MIN= 80;
 	public static int CONSTANT_DRILL_MAX= 230;
 	
-	public static double CONSTANT_DRILL = (double)((CONSTANT_DRILL_MAX - CONSTANT_DRILL_MIN) / 256); 
+	public static double CONSTANT_DRILL = (double)( (double)(CONSTANT_DRILL_MAX - CONSTANT_DRILL_MIN) / 256); 
 	
 	/**
 	 * moving pen printer head to next point
