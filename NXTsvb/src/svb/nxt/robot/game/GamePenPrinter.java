@@ -12,6 +12,7 @@ import svb.nxt.robot.bt.BTConnector;
 import svb.nxt.robot.bt.BTControls;
 import svb.nxt.robot.logic.CommandPerformer;
 import svb.nxt.robot.logic.PrinterHeler;
+import svb.nxt.robot.logic.constants.DrillPrinterConst;
 import svb.nxt.robot.logic.constants.PenPrinterConst;
 
 /** 
@@ -43,10 +44,12 @@ public class GamePenPrinter extends GameTemplate {
 	
 	
 	private int pen_distance_check = -1;	
+	private boolean goToTheBeginningOfPage = false;
 	private boolean goToTheBeginningOfRow = false;
 	
 	NXTRegulatedMotor motorPen, motor_X, motor_Y;
-	TouchSensor touch;
+	TouchSensor touchRow;
+	TouchSensor touchColumn;
 	int X = 0;
 
 	// show preview on LCD 
@@ -54,15 +57,15 @@ public class GamePenPrinter extends GameTemplate {
 	private int scrMoveX = 0;
 	private int scrMoveY = 0;
 	
-	private MyThread myThread;
+	private MyThread sensorThread;	
 
 	@Override
 	public void setMain(CommandPerformer commandPerformer) {
 		this.mainGame = (MainGame) commandPerformer;
 		this.showText = false;		
 		strBuilder = new StringBuilder();
-		myThread = new MyThread();
-		myThread.start();
+		sensorThread = new MyThread();
+		sensorThread.start();
 		
 		initMotors(true);		
 	}
@@ -71,7 +74,8 @@ public class GamePenPrinter extends GameTemplate {
 		
 		if (register){
 			
-			touch = new TouchSensor(SensorPort.S1);
+			touchRow = new TouchSensor(SensorPort.S1);
+			touchColumn = new TouchSensor(SensorPort.S2);
 			
 			motorPen = Motor.A;
 			motor_X = Motor.B;
@@ -238,7 +242,8 @@ public class GamePenPrinter extends GameTemplate {
 	private void drawString(String str, int part){
 		
 		if (part == 0){
-			initLineYMotor();
+//			initLineYMotor();
+			goToBeginingOrPage1();
 			goToBeginningOfRow1();		
 			doBeep();
 		}
@@ -290,7 +295,7 @@ public class GamePenPrinter extends GameTemplate {
 	 * ide konstantny kusok
 	 */
 	private void goToBeginningOfRow1(){		
-		motor_X.setSpeed(20 * PenPrinterConst.CONS_MOTOR_B_FORWARD);// go faster
+		motor_X.setSpeed(30 * PenPrinterConst.CONS_MOTOR_B_FORWARD);// go faster
 		if (PenPrinterConst.CONS_MOTOR_B_FORWARD == 1){
 			motor_X.backward();
 		}else{
@@ -306,15 +311,39 @@ public class GamePenPrinter extends GameTemplate {
 		motor_X.stop();
 		motor_X.flt();
 		motor_X.setSpeed(10 * PenPrinterConst.CONS_MOTOR_B_FORWARD); // go faster
-		motor_X.rotate(30 * PenPrinterConst.CONS_MOTOR_B_FORWARD);
+		motor_X.rotate(35 * PenPrinterConst.CONS_MOTOR_B_FORWARD);
 		initMotors(false);
 	}
 	
-	private void initLineYMotor(){
-		motor_Y.rotate(-50 * PenPrinterConst.CONS_MOTOR_C_FORWARD);
-		motor_Y.rotate(50 * PenPrinterConst.CONS_MOTOR_C_FORWARD);		
+	
+	private void goToBeginingOrPage1() {
+		motor_Y.setSpeed(30 * DrillPrinterConst.CONS_MOTOR_C_FORWARD);// go faster
+		if (DrillPrinterConst.CONS_MOTOR_C_FORWARD == 1){
+			motor_Y.backward();
+		}else{
+			motor_Y.forward();	
+		}		
+		goToTheBeginningOfPage = true;
+		while(goToTheBeginningOfPage){
+			// wait until hit the touch sensor
+		}
+		goToBeginingOrPage2();
+		
+	}
+	
+	private void goToBeginingOrPage2() {
+		motor_Y.stop();
+		motor_Y.flt();
+		motor_Y.setSpeed(10 * DrillPrinterConst.CONS_MOTOR_C_FORWARD); // go faster
+		motor_Y.rotate(35 * DrillPrinterConst.CONS_MOTOR_C_FORWARD);
 		initMotors(false);
-	}	
+	}
+	
+//	private void initLineYMotor(){
+//		motor_Y.rotate(-50 * DrillPrinterConst.CONS_MOTOR_C_FORWARD);
+//		motor_Y.rotate(50 * DrillPrinterConst.CONS_MOTOR_C_FORWARD);		
+//		initMotors(false);
+//	}	
 	
 	private void penUp(){		
 		motorPen.rotate(PenPrinterConst.CONSTANT_PEN_HEAD_DISTANCE 
@@ -328,8 +357,8 @@ public class GamePenPrinter extends GameTemplate {
 
 	@Override
 	public void onDestroy() {
-		myThread.setIsAlive(false);
-		myThread.interrupt();		
+		sensorThread.setIsAlive(false);
+		sensorThread.interrupt();		
 	}
 
 	@Override
@@ -386,8 +415,14 @@ public class GamePenPrinter extends GameTemplate {
 		@Override
 		public void run() {
 			while(alive){
-				if (touch != null && touch.isPressed()) {	
+				if (touchRow != null && touchRow.isPressed()) {	
 					goToTheBeginningOfRow = false;
+					// LCD.clear();
+					// LCD.drawString("Touch me!", 3, 4);				
+					// LCD.refresh();					
+				}
+				if (touchColumn != null && touchColumn.isPressed()) {	
+					goToTheBeginningOfPage = false;
 					// LCD.clear();
 					// LCD.drawString("Touch me!", 3, 4);				
 					// LCD.refresh();					

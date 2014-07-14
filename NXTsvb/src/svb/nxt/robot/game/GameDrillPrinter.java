@@ -45,9 +45,11 @@ public class GameDrillPrinter extends GameTemplate {
 	
 	private int drill_distance_check = -1;	
 	private boolean goToTheBeginningOfRow = false;
+	private boolean goToTheBeginningOfPage = false;
 	
 	NXTRegulatedMotor motorDrill, motor_X, motor_Y;
-	TouchSensor touch;
+	TouchSensor touchRow;
+	TouchSensor touchColumn;
 	int X = 0;
 
 	// show preview on LCD 
@@ -55,15 +57,15 @@ public class GameDrillPrinter extends GameTemplate {
 	private int scrMoveX = 0;
 	private int scrMoveY = 0;
 	
-	private MyThread myThread;
+	private MyThread sensorThread;	
 
 	@Override
 	public void setMain(CommandPerformer commandPerformer) {
 		this.mainGame = (MainGame) commandPerformer;
 		this.showText = false;		
 		drillVals = new ArrayList<Integer>();
-		myThread = new MyThread();
-		myThread.start();
+		sensorThread = new MyThread();
+		sensorThread.start();
 		
 		initMotors(true);		
 	}
@@ -72,7 +74,8 @@ public class GameDrillPrinter extends GameTemplate {
 		
 		if (register){
 			
-			touch = new TouchSensor(SensorPort.S1);
+			touchRow = new TouchSensor(SensorPort.S1);
+			touchColumn = new TouchSensor(SensorPort.S2);
 			
 			motorDrill = Motor.A;
 			motor_X = Motor.B;
@@ -208,7 +211,8 @@ public class GameDrillPrinter extends GameTemplate {
 	private void drillValues(ArrayList<Integer> list, int part){
 		
 		if (part == 0){
-			initLineYMotor();
+//			initLineYMotor();
+			goToBeginingOrPage1();
 			goToBeginningOfRow1();		
 			doBeep();
 		}
@@ -233,8 +237,8 @@ public class GameDrillPrinter extends GameTemplate {
 		}
 		
 		doBeep();
-	}
-	
+	}	
+
 	/**
 	 * presun na dalsi riadok
 	 * @param back
@@ -259,7 +263,7 @@ public class GameDrillPrinter extends GameTemplate {
 	 * ide konstantny kusok
 	 */
 	private void goToBeginningOfRow1(){		
-		motor_X.setSpeed(20 * DrillPrinterConst.CONS_MOTOR_B_FORWARD);// go faster
+		motor_X.setSpeed(30 * DrillPrinterConst.CONS_MOTOR_B_FORWARD);// go faster
 		if (DrillPrinterConst.CONS_MOTOR_B_FORWARD == 1){
 			motor_X.backward();
 		}else{
@@ -275,15 +279,38 @@ public class GameDrillPrinter extends GameTemplate {
 		motor_X.stop();
 		motor_X.flt();
 		motor_X.setSpeed(10 * DrillPrinterConst.CONS_MOTOR_B_FORWARD); // go faster
-		motor_X.rotate(30 * DrillPrinterConst.CONS_MOTOR_B_FORWARD);
+		motor_X.rotate(35 * DrillPrinterConst.CONS_MOTOR_B_FORWARD);
 		initMotors(false);
 	}
 	
-	private void initLineYMotor(){
-		motor_Y.rotate(-50 * DrillPrinterConst.CONS_MOTOR_C_FORWARD);
-		motor_Y.rotate(50 * DrillPrinterConst.CONS_MOTOR_C_FORWARD);		
+	private void goToBeginingOrPage1() {
+		motor_Y.setSpeed(30 * DrillPrinterConst.CONS_MOTOR_C_FORWARD);// go faster
+		if (DrillPrinterConst.CONS_MOTOR_C_FORWARD == 1){
+			motor_Y.backward();
+		}else{
+			motor_Y.forward();	
+		}		
+		goToTheBeginningOfPage = true;
+		while(goToTheBeginningOfPage){
+			// wait until hit the touch sensor
+		}
+		goToBeginingOrPage2();
+		
+	}
+	
+	private void goToBeginingOrPage2() {
+		motor_Y.stop();
+		motor_Y.flt();
+		motor_Y.setSpeed(10 * DrillPrinterConst.CONS_MOTOR_C_FORWARD); // go faster
+		motor_Y.rotate(35 * DrillPrinterConst.CONS_MOTOR_C_FORWARD);
 		initMotors(false);
-	}	
+	}
+	
+//	private void initLineYMotor(){
+//		motor_Y.rotate(-50 * DrillPrinterConst.CONS_MOTOR_C_FORWARD);
+//		motor_Y.rotate(50 * DrillPrinterConst.CONS_MOTOR_C_FORWARD);		
+//		initMotors(false);
+//	}	
 	
 	private void drillUp(int height){		
 		motorDrill.rotate(height 
@@ -297,8 +324,8 @@ public class GameDrillPrinter extends GameTemplate {
 	
 	@Override
 	public void onDestroy() {
-		myThread.setIsAlive(false);
-		myThread.interrupt();		
+		sensorThread.setIsAlive(false);
+		sensorThread.interrupt();		
 	}
 
 	@Override
@@ -355,8 +382,14 @@ public class GameDrillPrinter extends GameTemplate {
 		@Override
 		public void run() {
 			while(alive){
-				if (touch != null && touch.isPressed()) {	
+				if (touchRow != null && touchRow.isPressed()) {	
 					goToTheBeginningOfRow = false;
+					// LCD.clear();
+					// LCD.drawString("Touch me!", 3, 4);				
+					// LCD.refresh();					
+				}
+				if (touchColumn != null && touchColumn.isPressed()) {	
+					goToTheBeginningOfPage = false;
 					// LCD.clear();
 					// LCD.drawString("Touch me!", 3, 4);				
 					// LCD.refresh();					
