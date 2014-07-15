@@ -23,7 +23,8 @@ import svb.nxt.robot.logic.constants.DrillPrinterConst;
  * Motor A - drill head (up down)<br>
  * Motor B - X-axis<br>
  * Motor C - Y-axis<br>
- * Sensor 1: - Touch sensor<br>
+ * Sensor 1: - Touch sensor row<br>
+ * Sensor 2: - Touch sensor column<br>
  * @author svab
  *
  */
@@ -58,6 +59,8 @@ public class GameDrillPrinter extends GameTemplate {
 	private int scrMoveY = 0;
 	
 	private MyThread sensorThread;	
+	
+	private int drillDown = 0;
 
 	@Override
 	public void setMain(CommandPerformer commandPerformer) {
@@ -227,17 +230,59 @@ public class GameDrillPrinter extends GameTemplate {
 			LCD.refresh();
 			
 			if ((list.get(i) == NEW_LINE)){				
-				move_next_line();
-			}else{				
-				drillDown( (int)(DrillPrinterConst.CONSTANT_DRILL * list.get(i)) );
-				drillUp( (int)(DrillPrinterConst.CONSTANT_DRILL * list.get(i)));			
-				move_next_column();
+//				move_next_line();
+				drill_next_line();
+			}else{	
+				/**
+				 * old version
+				 * up & down every pixel 
+				 */
+//				drillDown( (int)(DrillPrinterConst.CONSTANT_DRILL * list.get(i)) );
+//				drillUp( (int)(DrillPrinterConst.CONSTANT_DRILL * list.get(i)));			
+//				move_next_column();
+				
+				/**
+				 * new version
+				 * go down and move head only changes 
+				 */
+				drill( (int)(DrillPrinterConst.CONSTANT_DRILL * list.get(i)) );						
+				drill_next_column();
 			}
 											
 		}
 		
 		doBeep();
 	}	
+
+	private void drill_next_line() {
+		if (drillDown != 0)
+			drillUp(drillDown);
+		
+		drillDown = 0;
+		
+		motor_Y.rotate(DrillPrinterConst.CONSTANT_NEXT_ROW 
+				* DrillPrinterConst.CONS_MOTOR_C_FORWARD);		
+		goToBeginningOfRow1();
+	}
+
+	private void drill_next_column() {
+		motor_X.rotate(DrillPrinterConst.CONSTANT_NEXT_COLUMN 
+				* DrillPrinterConst.CONS_MOTOR_B_FORWARD);
+	}
+
+	private void drill(int i) {
+		if (drillDown==0){
+			drillDown(i);
+		}else{
+			if(drillDown-i > 0){
+				drillUp(drillDown - i);
+			}else{
+				drillDown(i - drillDown);
+			}
+		}	
+		
+		drillDown = i; 
+	}
 
 	/**
 	 * presun na dalsi riadok

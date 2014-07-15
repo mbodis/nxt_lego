@@ -22,7 +22,8 @@ import svb.nxt.robot.logic.constants.PenPrinterConst;
  * Motor A - pen head (up down)<br>
  * Motor B - X-axis<br>
  * Motor C - Y-axis<br>
- * Sensor 1: - Touch sensor<br>
+ * Sensor 1: - Touch sensor row<br>
+ * Sensor 2: - Touch sensor column<br>
  * @author svab
  *
  */
