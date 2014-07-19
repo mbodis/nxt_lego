@@ -36,22 +36,22 @@ public class GameDrillPrinter extends GameTemplate {
 	public static int NEW_LINE = 999;
 	
 	/** max height in deg for drill head */
-	public int CONSTANT_DRILL_MIN= 80;
+	public int CONSTANT_DRILL_MIN= 60;
 	
 	/** max height in deg for drill head */
-	public int CONSTANT_DRILL_MAX= 230;
+	public int CONSTANT_DRILL_MAX= 210;
 	
 	/** moving pen printer head to next point */
-	public int CONSTANT_NEXT_COLUMN = 6;
+	public int CONSTANT_NEXT_COLUMN = 4;
 	
 	/**	moving printer head to next line X-axe */
-	public int CONSTANT_NEXT_ROW = 6;
+	public int CONSTANT_NEXT_ROW = 4;
 	
 	/** transform value 0-255 to DRILL_MIN and DRILL_MAX - height to drill */
 	public double CONSTANT_DRILL = (double)( (double)(CONSTANT_DRILL_MAX - CONSTANT_DRILL_MIN) / 256);
 	
 	/** drii head speed deg / sec */
-	public int CONSTANT_MOVE_SPEED = 10;
+	public int CONSTANT_MOVE_SPEED = 12;
 	
 	private boolean start = false;
 	private boolean end = false;
@@ -217,8 +217,7 @@ public class GameDrillPrinter extends GameTemplate {
 				case BTControls.DRILL_MAX_UP :					
 					drillUp(CONSTANT_DRILL_MAX);
 					break;					
-			}
-			motorDrill.stop();
+			}			
 			motorDrill.flt();
 			drill_distance_check = -1;
 		}
