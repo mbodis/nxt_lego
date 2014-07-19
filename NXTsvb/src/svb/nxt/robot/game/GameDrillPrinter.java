@@ -33,7 +33,25 @@ public class GameDrillPrinter extends GameTemplate {
 	//int coun = 0;
 	//int len = 0;
 	
-	public static int NEW_LINE = 999;	
+	public static int NEW_LINE = 999;
+	
+	/** max height in deg for drill head */
+	public int CONSTANT_DRILL_MIN= 80;
+	
+	/** max height in deg for drill head */
+	public int CONSTANT_DRILL_MAX= 230;
+	
+	/** moving pen printer head to next point */
+	public int CONSTANT_NEXT_COLUMN = 6;
+	
+	/**	moving printer head to next line X-axe */
+	public int CONSTANT_NEXT_ROW = 6;
+	
+	/** transform value 0-255 to DRILL_MIN and DRILL_MAX - height to drill */
+	public double CONSTANT_DRILL = (double)( (double)(CONSTANT_DRILL_MAX - CONSTANT_DRILL_MIN) / 256);
+	
+	/** drii head speed deg / sec */
+	public int CONSTANT_MOVE_SPEED = 10;
 	
 	private boolean start = false;
 	private boolean end = false;
@@ -86,8 +104,8 @@ public class GameDrillPrinter extends GameTemplate {
 		}
 		
 		motorDrill.setSpeed(DrillPrinterConst.CONSTANT_MOVE_SPEED_PEN);
-		motor_X.setSpeed(DrillPrinterConst.CONSTANT_MOVE_SPEED);
-		motor_Y.setSpeed(DrillPrinterConst.CONSTANT_MOVE_SPEED);
+		motor_X.setSpeed(CONSTANT_MOVE_SPEED);
+		motor_Y.setSpeed(CONSTANT_MOVE_SPEED);
 		
 		motorDrill.setAcceleration(DrillPrinterConst.CONSTANT_MOVE_ACCELERATION);
 		motor_X.setAcceleration(DrillPrinterConst.CONSTANT_MOVE_ACCELERATION);
@@ -125,13 +143,41 @@ public class GameDrillPrinter extends GameTemplate {
 				break;
 				
 			case BTControls.DRILL_DISTANCE_CHECK_LOW:
-			case BTControls.DRILL_DISTANCE_CHECK_DEEP:
-			case BTControls.DRILL_MIN_DOWN:
-			case BTControls.DRILL_MIN_UP:
-			case BTControls.DRILL_MAX_DOWN :
-			case BTControls.DRILL_MAX_UP :
 				drill_distance_check  = parameter[2]; 				
-				break;				
+				break;
+				
+			case BTControls.DRILL_DISTANCE_CHECK_DEEP:
+				drill_distance_check  = parameter[2]; 				
+				break;
+				
+			case BTControls.DRILL_MIN_DOWN:
+				this.CONSTANT_DRILL_MIN = ((int)parameter[3]) *2; 
+				drill_distance_check  = parameter[2]; 				
+				break;
+				
+			case BTControls.DRILL_MIN_UP:
+				this.CONSTANT_DRILL_MIN = ((int)parameter[3]) *2;
+				drill_distance_check  = parameter[2]; 				
+				break;
+				
+			case BTControls.DRILL_MAX_DOWN :
+				this.CONSTANT_DRILL_MAX = ((int)parameter[3]) *2;
+				drill_distance_check  = parameter[2]; 				
+				break;
+				
+			case BTControls.DRILL_MAX_UP :				
+				this.CONSTANT_DRILL_MAX = ((int)parameter[3]) *2;
+				drill_distance_check  = parameter[2]; 				
+				break;
+				
+			case BTControls.DRILL_SPEED:
+				this.CONSTANT_MOVE_SPEED = ((int)parameter[2]);
+				break;
+				
+			case BTControls.DRILL_HEAD_MOVE:
+				this.CONSTANT_NEXT_COLUMN = ((int)parameter[2]);
+				this.CONSTANT_NEXT_ROW = ((int)parameter[2]);
+				break;
 			}
 
 	}
@@ -152,26 +198,28 @@ public class GameDrillPrinter extends GameTemplate {
 			
 			switch(drill_distance_check){
 				case BTControls.DRILL_DISTANCE_CHECK_LOW:
-					drillDown(DrillPrinterConst.CONSTANT_DRILL_MIN);
-					drillUp(DrillPrinterConst.CONSTANT_DRILL_MIN);
+					drillDown(CONSTANT_DRILL_MIN);
+					drillUp(CONSTANT_DRILL_MIN);
 					break;
 				case BTControls.DRILL_DISTANCE_CHECK_DEEP:
-					drillDown(DrillPrinterConst.CONSTANT_DRILL_MAX);
-					drillUp(DrillPrinterConst.CONSTANT_DRILL_MAX);
+					drillDown(CONSTANT_DRILL_MAX);
+					drillUp(CONSTANT_DRILL_MAX);
 					break;
 				case BTControls.DRILL_MIN_DOWN:
-					drillDown(DrillPrinterConst.CONSTANT_DRILL_MIN);
+					drillDown(CONSTANT_DRILL_MIN);
 					break;
 				case BTControls.DRILL_MIN_UP:					
-					drillUp(DrillPrinterConst.CONSTANT_DRILL_MIN);
+					drillUp(CONSTANT_DRILL_MIN);
 					break;
 				case BTControls.DRILL_MAX_DOWN :
-					drillDown(DrillPrinterConst.CONSTANT_DRILL_MAX);
+					drillDown(CONSTANT_DRILL_MAX);
 					break;
 				case BTControls.DRILL_MAX_UP :					
-					drillUp(DrillPrinterConst.CONSTANT_DRILL_MAX);
-					break;
+					drillUp(CONSTANT_DRILL_MAX);
+					break;					
 			}
+			motorDrill.stop();
+			motorDrill.flt();
 			drill_distance_check = -1;
 		}
 		
@@ -214,7 +262,6 @@ public class GameDrillPrinter extends GameTemplate {
 	private void drillValues(ArrayList<Integer> list, int part){
 		
 		if (part == 0){
-//			initLineYMotor();
 			goToBeginingOrPage1();
 			goToBeginningOfRow1();		
 			doBeep();
@@ -224,35 +271,43 @@ public class GameDrillPrinter extends GameTemplate {
 			
 			LCD.clear();
 			 
-			LCD.drawString("const:" + DrillPrinterConst.CONSTANT_DRILL, 1, 5);
+			LCD.drawString("const:" + CONSTANT_DRILL, 1, 5);
 			LCD.drawString("print:" + list.get(i), 1, 6);
-			LCD.drawString("down:" + (int)(((double)DrillPrinterConst.CONSTANT_DRILL * list.get(i))), 1, 7);
+			LCD.drawString("down:" + (int)(((double)CONSTANT_DRILL * list.get(i))), 1, 7);
 			LCD.refresh();
-			
-			if ((list.get(i) == NEW_LINE)){				
-//				move_next_line();
-				drill_next_line();
-			}else{	
-				/**
-				 * old version
-				 * up & down every pixel 
-				 */
-//				drillDown( (int)(DrillPrinterConst.CONSTANT_DRILL * list.get(i)) );
-//				drillUp( (int)(DrillPrinterConst.CONSTANT_DRILL * list.get(i)));			
-//				move_next_column();
-				
-				/**
-				 * new version
-				 * go down and move head only changes 
-				 */
-				drill( (int)(DrillPrinterConst.CONSTANT_DRILL * list.get(i)) );						
-				drill_next_column();
-			}
-											
+						
+			drill(list.get(i), true);
 		}
 		
 		doBeep();
 	}	
+	
+	/**
+	 * val - new drill value
+	 * headDown - drill head just change height between old/new value 
+	 */
+	private void drill(int val, boolean headDown){
+		
+		if (headDown){
+			if (val == NEW_LINE){				
+				drill_next_line();
+			}else{													
+				drill( (int)(CONSTANT_DRILL * val) );						
+				drill_next_column();
+			}
+
+		}else{
+			if (val == NEW_LINE){				
+				move_next_line();				
+			}else{					
+				drillDown( (int)(CONSTANT_DRILL * val) );
+				drillUp( (int)(CONSTANT_DRILL * val));			
+				move_next_column();							
+			}			
+
+		}
+		
+	}
 
 	private void drill_next_line() {
 		if (drillDown != 0)
@@ -260,13 +315,13 @@ public class GameDrillPrinter extends GameTemplate {
 		
 		drillDown = 0;
 		
-		motor_Y.rotate(DrillPrinterConst.CONSTANT_NEXT_ROW 
+		motor_Y.rotate(CONSTANT_NEXT_ROW 
 				* DrillPrinterConst.CONS_MOTOR_C_FORWARD);		
 		goToBeginningOfRow1();
 	}
 
 	private void drill_next_column() {
-		motor_X.rotate(DrillPrinterConst.CONSTANT_NEXT_COLUMN 
+		motor_X.rotate(CONSTANT_NEXT_COLUMN 
 				* DrillPrinterConst.CONS_MOTOR_B_FORWARD);
 	}
 
@@ -289,7 +344,7 @@ public class GameDrillPrinter extends GameTemplate {
 	 * @param back
 	 */
 	private void move_next_line(){		
-		motor_Y.rotate(DrillPrinterConst.CONSTANT_NEXT_ROW 
+		motor_Y.rotate(CONSTANT_NEXT_ROW 
 				* DrillPrinterConst.CONS_MOTOR_C_FORWARD);		
 		goToBeginningOfRow1();
 	}		
@@ -298,7 +353,7 @@ public class GameDrillPrinter extends GameTemplate {
 	 * presun na dalsi stlpec
 	 */
 	private void move_next_column(){
-		motor_X.rotate(DrillPrinterConst.CONSTANT_NEXT_COLUMN 
+		motor_X.rotate(CONSTANT_NEXT_COLUMN 
 				* DrillPrinterConst.CONS_MOTOR_B_FORWARD);
 	}
 	
@@ -350,12 +405,6 @@ public class GameDrillPrinter extends GameTemplate {
 		motor_Y.rotate(35 * DrillPrinterConst.CONS_MOTOR_C_FORWARD);
 		initMotors(false);
 	}
-	
-//	private void initLineYMotor(){
-//		motor_Y.rotate(-50 * DrillPrinterConst.CONS_MOTOR_C_FORWARD);
-//		motor_Y.rotate(50 * DrillPrinterConst.CONS_MOTOR_C_FORWARD);		
-//		initMotors(false);
-//	}	
 	
 	private void drillUp(int height){		
 		motorDrill.rotate(height 

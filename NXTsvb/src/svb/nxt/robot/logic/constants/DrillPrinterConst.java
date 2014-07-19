@@ -1,31 +1,7 @@
 package svb.nxt.robot.logic.constants;
 
-public class DrillPrinterConst {
-
-	/**
-	 * moving pen head up/down
-	 */
-	
-	public static int CONSTANT_DRILL_MIN= 80;
-	public static int CONSTANT_DRILL_MAX= 230;
-	
-	public static double CONSTANT_DRILL = (double)( (double)(CONSTANT_DRILL_MAX - CONSTANT_DRILL_MIN) / 256); 
-	
-	/**
-	 * moving pen printer head to next point
-	 */
-	public static int CONSTANT_NEXT_COLUMN = 2;
-	
-	/**	 
-	 * moving printer head to next line X-axe
-	 */
-	public static int CONSTANT_NEXT_ROW = 9;
-	
-	/**
-	 * motor speed
-	 * deg / sec
-	 */
-	public static int CONSTANT_MOVE_SPEED = 10;
+public class DrillPrinterConst {	
+		
 	public static int CONSTANT_MOVE_SPEED_PEN = 20;
 		
 	/**
