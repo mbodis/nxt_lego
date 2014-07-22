@@ -1,17 +1,125 @@
 package svb.nxt.robot.logic.constants;
 
+/**
+ * printer movement constants
+ * can be modified
+ * @author svab
+ *
+ */
 public class DrillPrinterConst {	
-		
-	public static int CONSTANT_MOVE_SPEED_PEN = 20;
-		
-	/**
-	 * acceleration value 
-	 * default: 6000
-	 * deg /sec / sec
-	 */
-	public static int CONSTANT_MOVE_ACCELERATION = 800;
 	
-	public static int CONS_MOTOR_A_FORWARD = 1;
-	public static int CONS_MOTOR_B_FORWARD = -1;
-	public static int CONS_MOTOR_C_FORWARD = -1;
+	/** new line in sended parts */
+	public static int NEW_LINE = 999;
+	
+	/** direction values for motor A [1,-1] */	
+	public static int MOTOR_DIRECTION_A = 1;
+	
+	/** direction values for motor B [1,-1] */
+	public static int MOTOR_DIRECTION_B = -1;
+	
+	/** direction values for motor C [1,-1] */
+	public static int MOTOR_DIRECTION_C = -1;
+	
+	
+	
+	/** speed moving up/down */
+	private int penSpeed = 20;
+	/** speed moving up/down */
+	private int drillSpeed = 20;
+		
+	/** acceleration value, default: 6000 deg /sec / sec */
+	private int moveAcceleration = 800;	
+	
+	/** max height in deg for drill head */
+	private int drillMinValue= 60;
+	
+	/** max height in deg for drill head */
+	private int drillMaxValue= 210;
+	
+	/** moving pen printer head to next point X-axe */
+	private int nextColumnValue = 4;
+	
+	/**	moving printer head to next line Y-axe */
+	private int nextRowValue = 4;
+	
+
+	
+	
+	/** drill head speed deg / sec */
+	private int moveSpeed = 12;
+
+	public int getPenSpeed() {
+		return penSpeed;
+	}
+
+	public void setPenSpeed(int penSpeed) {
+		this.penSpeed = penSpeed;
+	}
+
+	public int getDrillSpeed() {
+		return drillSpeed;
+	}
+
+	public void setDrillSpeed(int drillSpeed) {
+		this.drillSpeed = drillSpeed;
+	}
+
+	public int getMoveAcceleration() {
+		return moveAcceleration;
+	}
+
+	public void setMoveAcceleration(int moveAcceleration) {
+		this.moveAcceleration = moveAcceleration;
+	}
+
+	public int getDrillMinValue() {
+		return drillMinValue;
+	}
+
+	public void setDrillMinValue(int drillMinValue) {
+		this.drillMinValue = drillMinValue;
+	}
+
+	public int getDrillMaxValue() {
+		return drillMaxValue;
+	}
+
+	public void setDrillMaxValue(int drillMaxValue) {
+		this.drillMaxValue = drillMaxValue;
+	}
+
+	public int getNextColumnValue() {
+		return nextColumnValue;
+	}
+
+	public void setNextColumnValue(int nextColumnValue) {
+		this.nextColumnValue = nextColumnValue;
+	}
+
+	public int getNextRowValue() {
+		return nextRowValue;
+	}
+
+	public void setNextRowValue(int nextRowValue) {
+		this.nextRowValue = nextRowValue;
+	}
+
+	public int getMoveSpeed() {
+		return moveSpeed;
+	}
+
+	public void setMoveSpeed(int moveSpeed) {
+		this.moveSpeed = moveSpeed;
+	}
+	
+	
+	
+	
+	/** 
+	 * transform value 0-255 to DRILL_MIN and DRILL_MAX - height to drill 
+	 */
+	public double getDrillConstant(){
+		return (double)( (double)(this.drillMaxValue - this.getDrillMinValue()) / 256);
+	}
+
 }

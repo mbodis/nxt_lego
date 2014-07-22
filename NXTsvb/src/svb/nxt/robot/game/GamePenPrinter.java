@@ -60,6 +60,8 @@ public class GamePenPrinter extends GameTemplate {
 	
 	private MyThread sensorThread;	
 
+	private DrillPrinterConst pHelper;
+	
 	@Override
 	public void setMain(CommandPerformer commandPerformer) {
 		this.mainGame = (MainGame) commandPerformer;
@@ -67,6 +69,7 @@ public class GamePenPrinter extends GameTemplate {
 		strBuilder = new StringBuilder();
 		sensorThread = new MyThread();
 		sensorThread.start();
+		pHelper = new DrillPrinterConst();
 		
 		initMotors(true);		
 	}
@@ -318,8 +321,8 @@ public class GamePenPrinter extends GameTemplate {
 	
 	
 	private void goToBeginingOrPage1() {
-		motor_Y.setSpeed(30 * DrillPrinterConst.CONS_MOTOR_C_FORWARD);// go faster
-		if (DrillPrinterConst.CONS_MOTOR_C_FORWARD == 1){
+		motor_Y.setSpeed(30 * PenPrinterConst.CONS_MOTOR_C_FORWARD);// go faster
+		if (PenPrinterConst.CONS_MOTOR_C_FORWARD == 1){
 			motor_Y.backward();
 		}else{
 			motor_Y.forward();	
@@ -335,8 +338,8 @@ public class GamePenPrinter extends GameTemplate {
 	private void goToBeginingOrPage2() {
 		motor_Y.stop();
 		motor_Y.flt();
-		motor_Y.setSpeed(10 * DrillPrinterConst.CONS_MOTOR_C_FORWARD); // go faster
-		motor_Y.rotate(35 * DrillPrinterConst.CONS_MOTOR_C_FORWARD);
+		motor_Y.setSpeed(10 * PenPrinterConst.CONS_MOTOR_C_FORWARD); // go faster
+		motor_Y.rotate(35 * PenPrinterConst.CONS_MOTOR_C_FORWARD);
 		initMotors(false);
 	}
 	

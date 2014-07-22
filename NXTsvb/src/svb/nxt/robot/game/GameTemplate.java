@@ -16,6 +16,7 @@ public abstract class GameTemplate {
 	
 	
 	protected boolean showText = true;
+	protected boolean showNewInput = true;
 	
 	/** main runnable class */
 	public MainGame mainGame;
@@ -50,6 +51,17 @@ public abstract class GameTemplate {
 	
 	public boolean getShowText(){
 		return this.showText;
+	}
+	
+	/**
+	 * show new incoming commandes form client
+	 */
+	public boolean showNewInput(){
+		return this.showNewInput;
+	}
+	
+	public void setVisibilityOfNewInput(boolean show){
+		this.showNewInput = show;
 	}
 	
 	/**

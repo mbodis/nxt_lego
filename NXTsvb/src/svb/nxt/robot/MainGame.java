@@ -179,14 +179,16 @@ public class MainGame implements CommandPerformer {
 	 *            the LCP message array
 	 */
 	public void performCommand(int command, byte[] parameter) {
-		try {
-			LCD.drawString("PERFORM : " + command, 2, 3);
-			LCD.drawString("OUT 2: " + parameter[2], 2, 4);
-			LCD.drawString("OUT 3: " + parameter[3], 2, 5);
-			LCD.drawString("OUT 4: " + parameter[4], 2, 6);			
-			LCD.refresh();
-		} catch (Exception e) {
-
+		if (game != null && game.showNewInput()){ 
+			try {
+				LCD.drawString("NEW input : " + command, 1, 2);
+				LCD.drawString("OUT 2: " + parameter[2], 1, 3);
+				LCD.drawString("OUT 3: " + parameter[3], 1, 4);
+				LCD.drawString("OUT 4: " + parameter[4], 1, 5);			
+				LCD.refresh();
+			} catch (Exception e) {
+	
+			}
 		}
 		switch (command) {
 
