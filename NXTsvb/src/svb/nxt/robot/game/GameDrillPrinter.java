@@ -179,7 +179,7 @@ public class GameDrillPrinter extends GameTemplate {
 	@Override
 	public void performInstructions() {
 		
-		//showLiveOPerformingInstruction();
+		//showLiveOPerformingInstruction();//debug
 		
 		if (start){			
 			if (doPrintByDrill){
@@ -262,33 +262,37 @@ public class GameDrillPrinter extends GameTemplate {
 		
 		for(int i = 0; i < list.size(); i++){
 			
-			LCD.clear();
-			 
-			LCD.drawString("X : " + pRow, 1, 1);
-			LCD.drawString("Y: " + pColumn, 1, 2);
-			LCD.drawString("part: " + (part+1), 1, 3);
-			double percent = (double)((int)((double)((double)i/ list.size()*100) * 100))/100;
-			LCD.drawString( percent + " %", 1, 4);
-			
-			//set progress bar 100×60
-			for (int j = 0; j < 100; j++) {
-				for (int k = 45; k < 60; k++) {
-					if (j == 0 || j == 99 || k == 45 || k == 59){
-						LCD.setPixel(j, k, 1);
-					}
-					if (j <= percent){
-						LCD.setPixel(j, k, 1);
-					}
-				}
-			}
-						
-			LCD.refresh();
-						
+			showProgressBarPart(list, i, part);
 			drill(list.get(i), true);
 		}
 		
 		doBeep();
 	}	
+	
+	private void showProgressBarPart(ArrayList<Integer> list, int i, int part){
+		
+		LCD.clear();
+		 
+		LCD.drawString("X : " + pRow, 1, 1);
+		LCD.drawString("Y: " + pColumn, 1, 2);
+		LCD.drawString("part: " + (part+1), 1, 3);
+		double percent = (double)((int)((double)((double)i/ list.size()*100) * 100))/100;
+		LCD.drawString( percent + " %", 1, 4);
+		
+		//set progress bar 100×60
+		for (int j = 0; j < 100; j++) {
+			for (int k = 45; k < 60; k++) {
+				if (j == 0 || j == 99 || k == 45 || k == 59){
+					LCD.setPixel(j, k, 1);
+				}
+				if (j <= percent){
+					LCD.setPixel(j, k, 1);
+				}
+			}
+		}
+					
+		LCD.refresh();
+	}
 	
 	/**
 	 * val - new drill value
@@ -379,7 +383,7 @@ public class GameDrillPrinter extends GameTemplate {
 	 * ide konstantny kusok
 	 */
 	private void goToBeginningOfRow1(){		
-		motor_X.setSpeed(30 * DrillPrinterConst.MOTOR_DIRECTION_B);// go faster
+		motor_X.setSpeed(DrillPrinterConst.RETURN_HEAD * DrillPrinterConst.MOTOR_DIRECTION_B);// go faster
 		if (DrillPrinterConst.MOTOR_DIRECTION_B == 1){
 			motor_X.backward();
 		}else{
@@ -394,13 +398,16 @@ public class GameDrillPrinter extends GameTemplate {
 	private void goToBeginningOfRow2(){
 		motor_X.stop();
 		motor_X.flt();
-		motor_X.setSpeed(10 * DrillPrinterConst.MOTOR_DIRECTION_B); // go faster
-		motor_X.rotate(35 * DrillPrinterConst.MOTOR_DIRECTION_B);
+		motor_X.setSpeed(DrillPrinterConst.RETURN_HEAD * DrillPrinterConst.MOTOR_DIRECTION_B); // go faster
+		motor_X.rotate(DrillPrinterConst.BUTTON_SPACE * DrillPrinterConst.MOTOR_DIRECTION_B);
 		initMotors(false);
 	}
 	
+	/**
+	 * run only once at beginning of print - part 1
+	 */
 	private void goToBeginingOfPage1() {
-		motor_Y.setSpeed(30 * DrillPrinterConst.MOTOR_DIRECTION_C);// go faster
+		motor_Y.setSpeed(DrillPrinterConst.RETURN_HEAD * DrillPrinterConst.MOTOR_DIRECTION_C);// go faster
 		if (DrillPrinterConst.MOTOR_DIRECTION_C == 1){
 			motor_Y.backward();
 		}else{
@@ -414,11 +421,14 @@ public class GameDrillPrinter extends GameTemplate {
 		
 	}
 	
+	/**
+	 * run only once at beginning of print - part 2s
+	 */
 	private void goToBeginingOfPage2() {
 		motor_Y.stop();
 		motor_Y.flt();
-		motor_Y.setSpeed(10 * DrillPrinterConst.MOTOR_DIRECTION_C); // go faster
-		motor_Y.rotate(35 * DrillPrinterConst.MOTOR_DIRECTION_C);
+		motor_Y.setSpeed(DrillPrinterConst.RETURN_HEAD * DrillPrinterConst.MOTOR_DIRECTION_C); // go faster
+		motor_Y.rotate(DrillPrinterConst.BUTTON_SPACE * DrillPrinterConst.MOTOR_DIRECTION_C);
 		initMotors(false);
 	}
 	

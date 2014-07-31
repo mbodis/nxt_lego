@@ -21,6 +21,12 @@ public class DrillPrinterConst {
 	public static int MOTOR_DIRECTION_C = -1;
 	
 	
+	/** drill head returning to begin of row - speed */
+	public static int RETURN_HEAD = 90;
+	
+	/** distance in deg. sapce away after hit begin of row/column */
+	public static int BUTTON_SPACE = 35;
+	
 	
 	/** speed moving up/down */
 	private int penSpeed = 20;
@@ -31,10 +37,10 @@ public class DrillPrinterConst {
 	private int moveAcceleration = 800;	
 	
 	/** max height in deg for drill head */
-	private int drillMinValue= 60;
+	private int drillMinValue= 30;//60;
 	
 	/** max height in deg for drill head */
-	private int drillMaxValue= 210;
+	private int drillMaxValue= 120;//210;
 	
 	/** moving pen printer head to next point X-axe */
 	private int nextColumnValue = 4;
@@ -46,7 +52,7 @@ public class DrillPrinterConst {
 	
 	
 	/** drill head speed deg / sec */
-	private int moveSpeed = 12;
+	private int moveSpeed = 40;
 
 	public int getPenSpeed() {
 		return penSpeed;
