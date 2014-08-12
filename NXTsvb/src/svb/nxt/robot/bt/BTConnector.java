@@ -29,6 +29,7 @@ public class BTConnector extends LCPBTResponder {
     public static final byte GAME_TYPE = 0x33;
     public static final byte ROBOT_TYPE = 0x34;
     public static final byte FILE_NEXT_PART = 0x35;
+    public static final byte TEST_CONNECTION = 0x36;
 
     // number of self defined commands
     public final static int MAX_ADDITIONAL_COMMANDS = 10;

@@ -172,6 +172,10 @@ public class GameDrillPrinter extends GameTemplate {
 				dHelper.setNextColumnValue(((int)parameter[2]));
 				dHelper.setNextRowValue(((int)parameter[2]));				
 				break;
+			case BTControls.TEST_CONNECTION:
+				MainGame.lcpThread.sendMsgToPhone(BTConnector.TEST_CONNECTION, (byte)0x0);				
+				break;
+			
 			}
 
 	}
