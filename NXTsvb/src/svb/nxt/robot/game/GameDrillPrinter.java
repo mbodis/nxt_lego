@@ -145,30 +145,34 @@ public class GameDrillPrinter extends GameTemplate {
 				break;
 				
 			case BTControls.DRILL_MIN_DOWN:
-				dHelper.setDrillMinValue(((int)parameter[3]) *2); 
 				drill_distance_check  = parameter[2]; 				
 				break;
 				
 			case BTControls.DRILL_MIN_UP:
-				dHelper.setDrillMinValue(((int)parameter[3]) *2);
 				drill_distance_check  = parameter[2]; 				
 				break;
 				
 			case BTControls.DRILL_MAX_DOWN :
-				dHelper.setDrillMaxValue(((int)parameter[3]) *2);
 				drill_distance_check  = parameter[2]; 				
 				break;
 				
-			case BTControls.DRILL_MAX_UP :				
-				dHelper.setDrillMaxValue(((int)parameter[3]) *2);
+			case BTControls.DRILL_MAX_UP :								
 				drill_distance_check  = parameter[2]; 				
 				break;
+			
+			case BTControls.DRILL_SET_MIN_DRILL :
+				dHelper.setDrillMinValue(((int)parameter[3]) *2);				
+				break;
 				
-			case BTControls.DRILL_SPEED:
+			case BTControls.DRILL_SET_MAX_DRILL :
+				dHelper.setDrillMaxValue(((int)parameter[3]) *2);				
+				break;	
+				
+			case BTControls.DRILL_SET_SPEED :
 				dHelper.setMoveSpeed(((int)parameter[2]));
 				break;
 				
-			case BTControls.DRILL_HEAD_MOVE:
+			case BTControls.DRILL_SET_HEAD_MOVE:
 				dHelper.setNextColumnValue(((int)parameter[2]));
 				dHelper.setNextRowValue(((int)parameter[2]));				
 				break;
@@ -283,7 +287,7 @@ public class GameDrillPrinter extends GameTemplate {
 		double percent = (double)((int)((double)((double)i/ list.size()*100) * 100))/100;
 		LCD.drawString( percent + " %", 1, 4);
 		
-		//set progress bar 100×60
+		//set progress bar 100ï¿½60
 		for (int j = 0; j < 100; j++) {
 			for (int k = 45; k < 60; k++) {
 				if (j == 0 || j == 99 || k == 45 || k == 59){
@@ -437,12 +441,12 @@ public class GameDrillPrinter extends GameTemplate {
 	}
 	
 	private void drillUp(int height){		
-		motorDrill.rotate(height 
+		motorDrill.rotate(-1 * height 
 				* DrillPrinterConst.MOTOR_DIRECTION_A);
 	}
 
 	private void drillDown(int height){		
-		motorDrill.rotate(-1 * height 
+		motorDrill.rotate(height 
 				* DrillPrinterConst.MOTOR_DIRECTION_A);
 	}
 	

@@ -11,13 +11,13 @@ public class DrillPrinterConst {
 	/** new line in sended parts */
 	public static int NEW_LINE = 999;
 	
-	/** direction values for motor A [1,-1] */	
-	public static int MOTOR_DIRECTION_A = 1;
+	/** direction values for motor A [1,-1] 1==forward -1==backward*/	
+	public static int MOTOR_DIRECTION_A = -1;
 	
-	/** direction values for motor B [1,-1] */
+	/** direction values for motor B [1,-1] 1==forward -1==backward*/
 	public static int MOTOR_DIRECTION_B = -1;
 	
-	/** direction values for motor C [1,-1] */
+	/** direction values for motor C [1,-1] 1==forward -1==backward*/
 	public static int MOTOR_DIRECTION_C = -1;
 	
 	
@@ -36,11 +36,11 @@ public class DrillPrinterConst {
 	/** acceleration value, default: 6000 deg /sec / sec */
 	private int moveAcceleration = 800;	
 	
-	/** max height in deg for drill head */
-	private int drillMinValue= 30;//60;
+	/** min height in deg for drill head */
+	private int drillMinValue= 30; //60;
 	
 	/** max height in deg for drill head */
-	private int drillMaxValue= 120;//210;
+	private int drillMaxValue= 210; //120;//210;
 	
 	/** moving pen printer head to next point X-axe */
 	private int nextColumnValue = 4;
