@@ -145,18 +145,22 @@ public class GameDrillPrinter extends GameTemplate {
 				break;
 				
 			case BTControls.DRILL_MIN_DOWN:
+				dHelper.setDrillMinValue(((int)parameter[3]) *2);
 				drill_distance_check  = parameter[2]; 				
 				break;
 				
 			case BTControls.DRILL_MIN_UP:
+				dHelper.setDrillMinValue(((int)parameter[3]) *2);
 				drill_distance_check  = parameter[2]; 				
 				break;
 				
 			case BTControls.DRILL_MAX_DOWN :
+				dHelper.setDrillMaxValue(((int)parameter[3]) *2);
 				drill_distance_check  = parameter[2]; 				
 				break;
 				
-			case BTControls.DRILL_MAX_UP :								
+			case BTControls.DRILL_MAX_UP :
+				dHelper.setDrillMaxValue(((int)parameter[3]) *2);
 				drill_distance_check  = parameter[2]; 				
 				break;
 			
@@ -169,12 +173,12 @@ public class GameDrillPrinter extends GameTemplate {
 				break;	
 				
 			case BTControls.DRILL_SET_SPEED :
-				dHelper.setMoveSpeed(((int)parameter[2]));
+				dHelper.setMoveSpeed(((int)parameter[3]));
 				break;
 				
 			case BTControls.DRILL_SET_HEAD_MOVE:
-				dHelper.setNextColumnValue(((int)parameter[2]));
-				dHelper.setNextRowValue(((int)parameter[2]));				
+				dHelper.setNextColumnValue(((int)parameter[3]));
+				dHelper.setNextRowValue(((int)parameter[3]));				
 				break;
 			case BTControls.TEST_CONNECTION:
 				MainGame.lcpThread.sendMsgToPhone(BTConnector.TEST_CONNECTION, (byte)0x0);				
@@ -280,7 +284,7 @@ public class GameDrillPrinter extends GameTemplate {
 	private void showProgressBarPart(ArrayList<Integer> list, int i, int part){
 		
 		LCD.clear();
-		 
+		 						
 		LCD.drawString("X : " + pRow, 1, 1);
 		LCD.drawString("Y: " + pColumn, 1, 2);
 		LCD.drawString("part: " + (part+1), 1, 3);
@@ -298,7 +302,7 @@ public class GameDrillPrinter extends GameTemplate {
 				}
 			}
 		}
-					
+		
 		LCD.refresh();
 	}
 	
@@ -430,7 +434,7 @@ public class GameDrillPrinter extends GameTemplate {
 	}
 	
 	/**
-	 * run only once at beginning of print - part 2s
+	 * run only once at beginning of print - part 2
 	 */
 	private void goToBeginingOfPage2() {
 		motor_Y.stop();

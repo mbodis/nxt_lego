@@ -125,7 +125,7 @@ public class DrillPrinterConst {
 	 * transform value 0-255 to DRILL_MIN and DRILL_MAX - height to drill 
 	 */
 	public double getDrillConstant(){
-		return (double)( (double)(this.drillMaxValue - this.getDrillMinValue()) / 256);
+		return (double)( (double)(this.drillMaxValue - this.drillMinValue) / 256);
 	}
 
 }
