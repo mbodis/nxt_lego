@@ -10,7 +10,7 @@ public class PenPrinterConst {
 	/**
 	 * moving pen printer head to next point
 	 */
-	public static int CONSTANT_NEXT_COLUMN = 2;
+	public static int CONSTANT_NEXT_COLUMN = 9;
 	
 	/**	 
 	 * moving printer head to next line X-axe
